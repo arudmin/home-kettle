@@ -42,7 +42,7 @@ def on_message(client, obj, msg):
                 pass
 
     # посылать сообщение после отключения чайника
-    if message == "kettle off" and "reply_message_id" not in os.environ:
+    if message == "kettle off" and "reply_message_id" in os.environ:
         kb_kettle = {'delete_msg': 'Отлично, иду'}
         keyboard = pages_inline_keyboard(kb_kettle, True)
         bot_msg = "Вода закипела."
