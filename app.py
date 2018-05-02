@@ -42,7 +42,7 @@ def on_message(client, obj, msg):
                 pass
 
     # посылать сообщение после отключения чайника
-    if message == "kettle off" and 'reply_message_id' in os.environ:
+    if message == "kettle off" and "reply_message_id" not in os.environ:
         kb_kettle = {'delete_msg': 'Отлично, иду'}
         keyboard = pages_inline_keyboard(kb_kettle, True)
         bot_msg = "Вода закипела."
@@ -122,8 +122,8 @@ def kettle(message):
         mqttc.publish("kettle/status", "0")
         if 'reply_message_id' in os.environ:
             bot.delete_message(message.from_user.id, os.environ['reply_message_id'])
-            del os.environ['reply_chat_id']
             del os.environ['reply_message_id']
+            del os.environ['reply_chat_id']
     time.sleep(2)
     return 0
 
