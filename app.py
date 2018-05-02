@@ -45,7 +45,7 @@ def on_message(client, obj, msg):
                 pass
 
     # посылать сообщение при выключении
-    if message == "kettle off" and 'chat_id' in os.environ and temp > 99:
+    if message == "kettle off" and 'chat_id' in os.environ and temp >= 99:
         kb_kettle = {'delete_msg': 'Отлично, иду'}
         keyboard = pages_inline_keyboard(kb_kettle, True)
         bot_msg = "Вода закипела."
