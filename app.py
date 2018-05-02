@@ -19,7 +19,7 @@ def on_connect(client, userdata, flags, rc):
     pass
 
 
-def on_message(client, obj, msg):
+def on_message(client, obj, msg, temp=0):
     message = str(msg.payload.decode("utf-8")).strip()
     topic = msg.topic
     # print(topic.strip() + "::" + str(msg.qos) + "::" + message)
@@ -42,7 +42,7 @@ def on_message(client, obj, msg):
                 pass
 
     # посылать сообщение после отключения чайника
-    if message == "kettle off" and "reply_message_id" in os.environ:
+    if temp > 99:
         kb_kettle = {'delete_msg': 'Отлично, иду'}
         keyboard = pages_inline_keyboard(kb_kettle, True)
         bot_msg = "Вода закипела."
