@@ -11,6 +11,7 @@ bot_name = bot.get_me().username
 # Parse CLOUDMQTT_URL (or fallback to localhost)
 url_str = os.environ.get('CLOUDMQTT_URL')
 url = urlparse(url_str)
+temp = 0
 
 
 # Define event callbacks
@@ -22,7 +23,6 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, obj, msg):
     message = str(msg.payload.decode("utf-8")).strip()
     topic = msg.topic
-    temp = 0
     # print(topic.strip() + "::" + str(msg.qos) + "::" + message)
     # print(topic.strip() + " :: " + message)
 
