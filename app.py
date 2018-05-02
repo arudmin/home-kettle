@@ -11,7 +11,6 @@ bot_name = bot.get_me().username
 # Parse CLOUDMQTT_URL (or fallback to localhost)
 url_str = os.environ.get('CLOUDMQTT_URL')
 url = urlparse(url_str)
-temp = 0
 
 
 # Define event callbacks
@@ -26,14 +25,12 @@ def on_message(client, obj, msg):
     # print(topic.strip() + "::" + str(msg.qos) + "::" + message)
     # print(topic.strip() + " :: " + message)
 
-    # if msg.topic == "kettle/temp" and int(message) % 5 == 0:
     if msg.topic == "kettle/temp":
         temp = int(message)
         if 'reply_message_id' not in os.environ:
             reply = bot.send_message(os.environ.get('chat_id'), "Температура: %s°C" % message)
             os.environ['reply_chat_id'] = str(reply.chat.id)
             os.environ['reply_message_id'] = str(reply.message_id)
-            # print(reply)
         else:
             reply_chat_id = os.environ.get('reply_chat_id')
             reply_message_id = os.environ.get('reply_message_id')
@@ -44,8 +41,8 @@ def on_message(client, obj, msg):
             except:
                 pass
 
-    # посылать сообщение при выключении
-    if message == "kettle off" and 'chat_id' in os.environ and temp >= 99:
+    # посылать сообщение после отключения чайника
+    if message == "kettle off" and 'chat_id' in os.environ:
         kb_kettle = {'delete_msg': 'Отлично, иду'}
         keyboard = pages_inline_keyboard(kb_kettle, True)
         bot_msg = "Вода закипела."
